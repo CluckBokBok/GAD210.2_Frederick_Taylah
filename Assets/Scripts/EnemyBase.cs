@@ -11,6 +11,7 @@ namespace GAD210_Enemy_Base
         [SerializeField] private float detectionDistance = 5f;
         [SerializeField] private string playerTag = "Player";
         [SerializeField] private LayerMask playerDetection;
+        [SerializeField] public float enemyHealth = 100f; 
 
         void Start()
         {

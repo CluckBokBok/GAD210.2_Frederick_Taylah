@@ -6,7 +6,7 @@ public class FormStats : ScriptableObject
     //Hosts all of the following information for each form type: 
     public string cardName;
     public float damageOutput;
-    public float hitChance;
+    public float healingOutput;
     public string abilityDescription; 
     public Sprite sprite; 
 

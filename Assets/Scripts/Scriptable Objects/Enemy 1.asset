@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf5ed8a6bd32f04283a553dc73715bb, type: 3}
+  m_Name: Enemy 1
+  m_EditorClassIdentifier: 
+  cardName: Samurai
+  damageOutput: 25
+  healingOutput: 0
+  abilityDescription: A samurai?! What is the lore here?!
+  sprite: {fileID: 21300000, guid: ba6caa2a4a4ff0d40a0c42f30cdeb746, type: 3}

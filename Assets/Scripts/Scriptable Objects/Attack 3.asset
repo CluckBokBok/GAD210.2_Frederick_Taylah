@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdf5ed8a6bd32f04283a553dc73715bb, type: 3}
-  m_Name: Batastrophe
+  m_Name: Attack 3
   m_EditorClassIdentifier: 
-  cardName: Batastrophe
-  damageOutput: 25
-  hitChance: 1
-  abilityDescription: Grab your bat and swing it true!
-  sprite: {fileID: 0}
+  cardName: Strike Zone
+  damageOutput: 10
+  healingOutput: 0
+  abilityDescription: Aaaaaaaaand you're out!
+  sprite: {fileID: 21300000, guid: a8551f8c50da7c4408cb491d9c6e476c, type: 3}

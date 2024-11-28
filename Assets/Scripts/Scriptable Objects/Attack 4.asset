@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf5ed8a6bd32f04283a553dc73715bb, type: 3}
+  m_Name: Attack 4
+  m_EditorClassIdentifier: 
+  cardName: Locked and Loaded
+  damageOutput: 15
+  healingOutput: 0
+  abilityDescription: Bringing chaos to the pitch!
+  sprite: {fileID: 21300000, guid: d97203030a6ecb145a55565a8ed08dd0, type: 3}
