@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GAD210_Enemy_Base;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,11 +16,28 @@ public class CardManager : MonoBehaviour
     // Serialized field for the UI Image components where the cards will be displayed
     [SerializeField] private List<Image> handUIImages = new List<Image>();
 
+    private FormStats selectedCard = null;
+    private Image selectedCardImage = null; 
+    private const float selectedScale = 1.5f; 
+    private const float defaultScale = 1f; 
+    [SerializeField] private PlayerManager playerManager; 
+    [SerializeField] private EnemyBase enemyBase;
+
     void Start()
     {
         ShuffleDeck();
 
-        // Assign the button's click event
+        // Assign click listeners to each card in the player's hand
+        for (int i = 0; i < handUIImages.Count; i++)
+        {
+            int index = i; // Capture index for the closure
+            handUIImages[i].GetComponent<Button>().onClick.AddListener(() =>
+            {
+                HandleCardClick(index);
+            });
+        }
+
+        // Add listener to draw card button
         if (drawCardButton != null)
             drawCardButton.onClick.AddListener(TryDrawCard);
     }
@@ -56,6 +74,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
+
     // Draws a card from the deck and shuffles said deck if it becomes empty
     private FormStats DrawCard()
     {
@@ -70,31 +89,84 @@ public class CardManager : MonoBehaviour
         return drawnCard;
     }
 
-    // Updates the UI with cards the player has drawn
+    // Needs refinement
+    public void PlayCard(FormStats card, PlayerManager playerManager, EnemyBase enemyBase)
+    {
+        // Apply card effects: damage to the enemy and healing to the player
+        playerManager.ApplyHealing(card.healingOutput);
+        enemyBase.ApplyDamage(card.damageOutput);
+
+        Debug.Log($"Played card {card.cardName}: Damage {card.damageOutput}, Heal {card.healingOutput}");
+    }
+
+    private void HandleCardClick(int cardIndex)
+    {
+        if (cardIndex < 0 || cardIndex >= playerHand.Count) return;
+
+        FormStats clickedCard = playerHand[cardIndex];
+        Image clickedCardImage = handUIImages[cardIndex];
+
+        if (selectedCard == clickedCard)
+        {
+            // Play the card and remove it on the second click
+            PlayCard(selectedCard, playerManager, enemyBase);
+            RemoveCardFromHand(cardIndex);
+            selectedCard = null;
+            selectedCardImage = null;
+        }
+        else
+        {
+            // Select the card and scale it up
+            ResetCardScales();
+            selectedCard = clickedCard;
+            selectedCardImage = clickedCardImage;
+            ScaleCard(clickedCardImage, selectedScale);
+        }
+    }
+
+    private void ScaleCard(Image cardImage, float scale)
+    {
+        cardImage.transform.localScale = new Vector3(scale, scale, 1f);
+    }
+
+    private void ResetCardScales()
+    {
+        foreach (var cardImage in handUIImages)
+        {
+            cardImage.transform.localScale = Vector3.one * defaultScale;
+        }
+    }
+
+    private void RemoveCardFromHand(int cardIndex)
+    {
+        // Remove the card from the hand
+        playerHand.RemoveAt(cardIndex);
+
+        handUIImages[cardIndex].sprite = null;
+        handUIImages[cardIndex].gameObject.SetActive(false);
+        handUIImages[cardIndex].transform.localScale = Vector3.one * defaultScale; // Reset scale
+
+        UpdateCardUI();
+    }
+
     private void UpdateCardUI()
     {
-        // Loop through the player's hand and the UI images
-        for (int i = 0; i < playerHand.Count; i++)
+        for (int i = 0; i < handUIImages.Count; i++)
         {
-            if (i < handUIImages.Count)
+            if (i < playerHand.Count)
             {
-                // Update the UI image with the card sprite
+                // Update the UI with the remaining cards
                 handUIImages[i].sprite = playerHand[i].sprite;
-
-                // Optionally set the image active or visible here if you need more control over the UI
                 handUIImages[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                // Disable unused card slots
+                handUIImages[i].gameObject.SetActive(false);
             }
         }
     }
 
-    // Needs refinement, currently doesn't do anything 
-    public void PlayCard(FormStats card)
-    {
-        // Logic to play the card, e.g., trigger an ability, remove the card from the hand, etc.
-        Debug.Log($"Card {card.cardName} has been played.");
-        playerHand.Remove(card);
-        UpdateCardUI();
-    }
 
 }
 

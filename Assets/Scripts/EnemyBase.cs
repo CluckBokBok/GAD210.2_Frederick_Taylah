@@ -11,7 +11,8 @@ namespace GAD210_Enemy_Base
         [SerializeField] private float detectionDistance = 5f;
         [SerializeField] private string playerTag = "Player";
         [SerializeField] private LayerMask playerDetection;
-        [SerializeField] public float enemyHealth = 100f; 
+        [SerializeField] public float enemyHealth = 100f;
+        [SerializeField] private float retaliationDamage = 10f;
 
         void Start()
         {
@@ -25,6 +26,41 @@ namespace GAD210_Enemy_Base
         void Update()
         {
             DetectPlayerAndBattle();
+        }
+
+        public void TakeDamage(float amount)
+        {
+            enemyHealth -= amount;
+            Debug.Log($"Enemy took {amount} damage. Current health: {enemyHealth}");
+
+            if (enemyHealth <= 0)
+            {
+                Debug.Log("Enemy has been defeated!");
+                // Handle enemy defeat logic here
+            }
+        }
+
+        public void ApplyDamage(float amount)
+        {
+            enemyHealth -= amount;
+            if (enemyHealth <= 0)
+            {
+                Debug.Log("Enemy defeated!");
+                enemyHealth = 0; // Ensure it doesn't go negative
+            }
+            Debug.Log($"Enemy took {amount} damage. Remaining health: {enemyHealth}");
+        }
+
+        public void Retaliate(PlayerManager player)
+        {
+            if (player == null)
+            {
+                Debug.LogWarning("Player reference is null. Cannot retaliate.");
+                return;
+            }
+
+            Debug.Log($"Enemy retaliates with {retaliationDamage} damage.");
+            player.TakeDamage(retaliationDamage);
         }
 
         protected virtual void DetectPlayerAndBattle()
