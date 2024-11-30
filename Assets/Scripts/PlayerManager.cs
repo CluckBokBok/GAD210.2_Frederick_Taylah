@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
-    [SerializeField] private float playerHealth = 100f;
+    [SerializeField] public float playerHealth = 100f;
     [SerializeField] private float maxHealth = 100f;
 
     public void TakeDamage(float amount)
@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
 
         if (playerHealth <= 0)
         {
+            playerHealth = 0; 
             Debug.Log("Player has been defeated!");
             // Handle game over logic here
         }

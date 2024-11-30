@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 namespace GAD210_Enemy_Base
 {
     public class EnemyBase : MonoBehaviour
     {
+
+        public TMP_Text enemyDamageOutput;
+
+        // Calls on GameManager script
         [SerializeField] private GameManager gameManager; // Assign in the Inspector
+        
+        // Variables for creating the physics overlap fields
         [SerializeField] private float detectionDistance = 5f;
         [SerializeField] private string playerTag = "Player";
         [SerializeField] private LayerMask playerDetection;
+        
+        // Enemies health variable
         [SerializeField] public float enemyHealth = 100f;
-        [SerializeField] private float retaliationDamage = 10f;
+        
+        // Enemy damage output variables
+        [SerializeField] private float enemyMinDamage = 10f;
+        [SerializeField] private float enemyMaxDamage = 25f;
+        private float retaliationDamage;
 
         void Start()
         {
@@ -28,18 +42,7 @@ namespace GAD210_Enemy_Base
             DetectPlayerAndBattle();
         }
 
-        public void TakeDamage(float amount)
-        {
-            enemyHealth -= amount;
-            Debug.Log($"Enemy took {amount} damage. Current health: {enemyHealth}");
-
-            if (enemyHealth <= 0)
-            {
-                Debug.Log("Enemy has been defeated!");
-                // Handle enemy defeat logic here
-            }
-        }
-
+        // Applies damage to the enemy based on card outcome (Amount)
         public void ApplyDamage(float amount)
         {
             enemyHealth -= amount;
@@ -51,6 +54,7 @@ namespace GAD210_Enemy_Base
             Debug.Log($"Enemy took {amount} damage. Remaining health: {enemyHealth}");
         }
 
+        // Uses a randomr range to determine enemy attack output and applies it to the player
         public void Retaliate(PlayerManager player)
         {
             if (player == null)
@@ -59,10 +63,14 @@ namespace GAD210_Enemy_Base
                 return;
             }
 
+
+            retaliationDamage = Random.Range(enemyMinDamage, enemyMaxDamage);
+
             Debug.Log($"Enemy retaliates with {retaliationDamage} damage.");
             player.TakeDamage(retaliationDamage);
         }
 
+        // A physics overlap that detects the player, once detected it loads the card game scene
         protected virtual void DetectPlayerAndBattle()
         {
             // Define detection parameters
@@ -86,6 +94,7 @@ namespace GAD210_Enemy_Base
             }
         }
 
+        // Visual aspect of the physics overlap
         private void DebugDrawCircle(Vector2 center, float radius, Color color)
         {
             int segments = 50;

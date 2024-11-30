@@ -18,8 +18,9 @@ public class CardManager : MonoBehaviour
 
     private FormStats selectedCard = null;
     private Image selectedCardImage = null; 
-    private const float selectedScale = 1.5f; 
-    private const float defaultScale = 1f; 
+    private const float selectedScale = 6.5f; 
+    private const float defaultScale = 4.696885f; 
+    
     [SerializeField] private PlayerManager playerManager; 
     [SerializeField] private EnemyBase enemyBase;
 
@@ -97,6 +98,10 @@ public class CardManager : MonoBehaviour
         enemyBase.ApplyDamage(card.damageOutput);
 
         Debug.Log($"Played card {card.cardName}: Damage {card.damageOutput}, Heal {card.healingOutput}");
+
+        enemyBase.Retaliate(playerManager);
+
+
     }
 
     private void HandleCardClick(int cardIndex)
@@ -126,7 +131,7 @@ public class CardManager : MonoBehaviour
 
     private void ScaleCard(Image cardImage, float scale)
     {
-        cardImage.transform.localScale = new Vector3(scale, scale, 1f);
+        cardImage.transform.localScale = new Vector3(scale, scale, 1.5f);
     }
 
     private void ResetCardScales()
