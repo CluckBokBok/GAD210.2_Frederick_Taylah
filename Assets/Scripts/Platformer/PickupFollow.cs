@@ -9,7 +9,7 @@ namespace GAD210_Pickup_Base
     public class TF_ItemPickupFollow : PickupMain
     {
 
-        [SerializeField] private Vector2 followOffset = new Vector2(1.5f, 1);
+        [SerializeField] private Vector2 followOffset = new Vector2(1.2f, 1.2f);
         private bool isFollowingPlayer = false;
         [SerializeField] private float bounceAmplitude = 0.3f;
         [SerializeField] private float bounceFrequency = 10f;
@@ -46,7 +46,7 @@ namespace GAD210_Pickup_Base
 
             // Adjust the offset to be on the left or right side
             Vector2 dynamicOffset = followOffset;
-            dynamicOffset.x = Mathf.Abs(followOffset.x) * (playerDirection < 0 ? -1 : 1);
+            dynamicOffset.x = Mathf.Abs(followOffset.x) * (playerDirection < 0 ? 1 : -1);
 
             // Calculate the target position with the dynamic offset
             Vector2 targetPosition = (Vector2)playerLocation.position + dynamicOffset;
