@@ -11,11 +11,13 @@ namespace PlayerMovement.Base
         [SerializeField] private float jumpForce = 8f;
         [SerializeField] private LayerMask groundLayer;
         protected bool touchingGround;
+        private Animator animator;
 
         // Start is called before the first frame update
         void Start()
         {
             body = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
         }
 
 
@@ -24,6 +26,7 @@ namespace PlayerMovement.Base
         {
             InitiateMovement();
             InitiateJumping();
+            UpdateAnimations();
         }
 
         //Enables forward + backward movement, stops movement if no input is detected. 
@@ -84,11 +87,18 @@ namespace PlayerMovement.Base
                                                    groundLayer);
         }
 
-        // Sets movement statistics based on the form being used by the player
-        public void SetMovementStats(float newSpeed, float newJumpForce)
+
+        private void UpdateAnimations()
         {
-            speed = newSpeed;
-            jumpForce = newJumpForce;
+            float absVelocityX = Mathf.Abs(body.velocity.x);
+
+            // Update speed parameter
+            animator.SetFloat("Speed", absVelocityX);
+
+            // Update jumping parameter
+            animator.SetBool("IsJumping", !touchingGround);
         }
+
+
     }
 }
