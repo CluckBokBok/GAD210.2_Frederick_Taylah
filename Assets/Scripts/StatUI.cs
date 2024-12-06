@@ -7,18 +7,23 @@ using TMPro;
 
 public class StatUI : MonoBehaviour
 {
-
     public TMP_Text playerHealth;
     public TMP_Text enemyHealth;
+    public GameObject uiImage; 
 
-    PlayerManager playerManager;
-    EnemyBase enemyBase;
+    private PlayerManager playerManager;
+    private EnemyBase enemyBase;
 
     // Start is called before the first frame update
     void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         enemyBase = FindObjectOfType<EnemyBase>();
+
+        if (uiImage != null)
+        {
+            uiImage.SetActive(false); // Ensure the UI image starts inactive
+        }
     }
 
     // Update is called once per frame
@@ -35,4 +40,13 @@ public class StatUI : MonoBehaviour
         float roundedEnemyHealth = Mathf.Round(enemyBase.enemyHealth);
         enemyHealth.text = $"{roundedEnemyHealth}";
     }
+
+    public void ToggleUIImage()
+    {
+        if (uiImage != null)
+        {
+            uiImage.SetActive(!uiImage.activeSelf); 
+        }
+    }
 }
+
